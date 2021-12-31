@@ -1,0 +1,1 @@
+# Common Ninja for React

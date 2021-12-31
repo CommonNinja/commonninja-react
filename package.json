@@ -1,0 +1,46 @@
+{
+  "name": "commonninja-react",
+  "version": "1.0.0",
+  "description": "A small library for using Common Ninja's plugins in React projects.",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rimraf dist",
+    "build": "npm run clean && rollup -c",
+    "prepare": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CommonNinja/commonninja-react.git"
+  },
+  "author": "Common Ninja",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CommonNinja/commonninja-react/issues"
+  },
+  "homepage": "https://github.com/CommonNinja/commonninja-react#readme",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-typescript": "^8.2.5",
+    "@types/react": "^17.0.18",
+    "postcss": "^8.4.5",
+    "react": "^17.0.2",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.56.2",
+    "rollup-plugin-dts": "^3.0.2",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "tslib": "^2.3.1",
+    "typescript": "^4.3.5"
+  },
+  "peerDependency": {
+    "react": "^17.0.2"
+  }
+}
