@@ -28,4 +28,4 @@ Here's a list of available props for the `<CommonNinjaPlugin />` component:
 
 ## Contact
 
-Having issues / questions using this library? Feel free to reach out at [mailto:contact@commoninja.com](contact@commoninja.com).
+Having issues / questions using this library? Feel free to reach out at [contact@commoninja.com](mailto:contact@commoninja.com).
