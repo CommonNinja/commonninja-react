@@ -7,11 +7,24 @@ https://www.commoninja.com
 
 ## How to use
 
+Start by installing the library in your project:
 ```
-<CommonNinjaPlugin
-  pluginId=""
-  type=""
-/>
+npm i commonninja-react -S
+```
+
+Then, add the following code where you want the plugin to appear in your React app:
+
+```
+import { CommonNinjaPlugin } from 'commonninja-react';
+
+const MyComponent = () => {
+  return (
+    <CommonNinjaPlugin
+      pluginId=""
+      type=""
+    />
+  );
+}
 ```
 
 ## Props
