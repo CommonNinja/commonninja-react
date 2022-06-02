@@ -19,7 +19,7 @@ let loadedPluginId: string = '';
 export const CommonNinjaPlugin = (props: ICommonNinjaPluginProps) => {
   const { pluginId, type, onLoad, muteEvents, pluginProps } = props;
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(
-    !!document?.getElementById('commonninja-sdk'),
+    typeof document !== 'undefined' && !!document?.getElementById('commonninja-sdk'),
   );
   const conditionalProps: any = {};
 
@@ -43,6 +43,10 @@ export const CommonNinjaPlugin = (props: ICommonNinjaPluginProps) => {
   }
 
   useEffect(() => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+    
     const existingScript = document?.getElementById('commonninja-sdk');
 
     if (!existingScript) {
