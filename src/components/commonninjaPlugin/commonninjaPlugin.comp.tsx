@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 interface ICommonNinjaPluginProps {
   pluginId: string;
-  type: string;
+  type?: string;
   pluginProps?: string;
   muteEvents?: boolean;
   onLoad?: () => void;
@@ -17,7 +17,7 @@ declare global {
 let loadedPluginId: string = '';
 
 export const CommonNinjaPlugin = (props: ICommonNinjaPluginProps) => {
-  const { pluginId, type, onLoad, muteEvents, pluginProps } = props;
+  const { pluginId, onLoad, muteEvents, pluginProps } = props;
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(
     typeof document !== 'undefined' && !!document?.getElementById('commonninja-sdk'),
   );
@@ -75,9 +75,7 @@ export const CommonNinjaPlugin = (props: ICommonNinjaPluginProps) => {
 
   return (
     <div
-      className="commonninja_component"
-      comp-type={type}
-      comp-id={pluginId}
+      className={`commonninja_component pid-${pluginId}`}
       {...conditionalProps}
     ></div>
   );
