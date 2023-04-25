@@ -21,7 +21,6 @@ const MyComponent = () => {
   return (
     <CommonNinjaPlugin
       pluginId=""
-      type=""
     />
   );
 }
@@ -31,8 +30,7 @@ const MyComponent = () => {
 Here's a list of available props for the `<CommonNinjaPlugin />` component:
 
 ### Mandatory
-* `pluginId` - the instance ID of the plugin.
-* `type` - type type of the plugin (bracket, faq, comparison_table, etc.).
+* `pluginId` - Common Ninja's widget ID.
 
 ### Not Mandatory
 * `muteEvents` - set to true if you don't want your plugin to report engagement events for analytics (views, impressions, custom events, etc.).
