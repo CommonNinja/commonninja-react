@@ -1,1 +1,1 @@
-export * from './commonninjaPlugin';
+export * from './commonninjaWidget';

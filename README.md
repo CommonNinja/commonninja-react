@@ -1,41 +1,45 @@
 # Common Ninja for React
 
-A small library for using Common Ninja's plugins in React projects.
+A small library for using Common Ninja's widgets in React projects.
 
-A list of all available plugins, apps, and widgets could be found here:
-https://www.commoninja.com
+A list of all available widgets could be found here:
+https://www.commoninja.com/widgets
 
 ## How to use
 
 Start by installing the library in your project:
 ```
-npm i commonninja-react -S
+// npm
+npm i commonninja-react
+
+// yarn
+yarn add commonninja-react
 ```
 
-Then, add the following code where you want the plugin to appear in your React app:
+Then, add the following code where you want the widget to appear in your React app:
 
 ```
-import { CommonNinjaPlugin } from 'commonninja-react';
+import { CommonNinjaWidget } from 'commonninja-react';
 
 const MyComponent = () => {
   return (
-    <CommonNinjaPlugin
-      pluginId=""
+    <CommonNinjaWidget
+      widgetId=""
     />
   );
 }
 ```
 
 ## Props
-Here's a list of available props for the `<CommonNinjaPlugin />` component:
+Here's a list of available props for the `<CommonNinjaWidget />` component:
 
 ### Mandatory
-* `pluginId` - Common Ninja's widget ID.
+* `widgetId` - Common Ninja's widget ID.
 
 ### Not Mandatory
-* `muteEvents` - set to true if you don't want your plugin to report engagement events for analytics (views, impressions, custom events, etc.).
-* `onLoad` - a callback that will dispatch once the plugin has been loaded completely.
-* `pluginProps` - a string that will be passed to the viewer's url. Please note that this property isn't being used in most of apps.
+* `muteEvents` - set to true if you don't want your widget to report engagement events for analytics (views, impressions, custom events, etc.).
+* `onLoad` - a callback that will dispatch once the widget has been loaded completely.
+* `widgetProps` - a string that will be passed to the viewer's url. Please note that this property isn't being used in most of apps.
 
 ## Contact
 
