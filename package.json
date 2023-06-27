@@ -1,7 +1,7 @@
 {
   "name": "commonninja-react",
-  "version": "1.0.8",
-  "description": "A small library for using Common Ninja's plugins in React projects.",
+  "version": "1.1.0",
+  "description": "A small library for using Common Ninja's widgets in React projects.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
@@ -30,7 +30,8 @@
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/react": "^17.0.18",
     "postcss": "^8.4.5",
-    "react": "^17.0.2",
+    "react": "^18.2.0",
+		"react-dom": "^18.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.56.2",
     "rollup-plugin-dts": "^3.0.2",
@@ -41,6 +42,6 @@
     "typescript": "^4.3.5"
   },
   "peerDependency": {
-    "react": "^16.x || ^17.x"
+    "react": "^18.x"
   }
 }
