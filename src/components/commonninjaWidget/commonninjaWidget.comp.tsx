@@ -5,7 +5,8 @@ interface ICommonNinjaWidgetProps {
   type?: string;
   widgetProps?: string;
   muteEvents?: boolean;
-  onLoad?: () => void;
+  onSdkLoad?: () => Promise<void> | void;
+  onInit?: () => Promise<void> | void;
   loader?: React.ReactNode;
   style?: CSSProperties;
 }
@@ -21,7 +22,8 @@ let loadedWidgetId: string = "";
 export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
   const {
     widgetId,
-    onLoad,
+    onSdkLoad,
+    onInit,
     loader = <></>,
     muteEvents,
     style,
@@ -51,6 +53,7 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
     ) {
       window.CommonNinja.init(() => {
         setLoading(false);
+        onInit?.();
       });
     }
   }
@@ -82,7 +85,7 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
   useEffect(() => {
     if (scriptLoaded) {
       init();
-      onLoad?.();
+      onSdkLoad?.();
     }
   }, [scriptLoaded]);
 
