@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 
 interface ICommonNinjaWidgetProps {
   widgetId: string;
@@ -6,6 +6,8 @@ interface ICommonNinjaWidgetProps {
   widgetProps?: string;
   muteEvents?: boolean;
   onLoad?: () => void;
+  loader?: React.ReactNode;
+  style?: CSSProperties;
 }
 
 declare global {
@@ -17,7 +19,15 @@ declare global {
 let loadedWidgetId: string = "";
 
 export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
-  const { widgetId, onLoad, muteEvents, widgetProps } = props;
+  const {
+    widgetId,
+    onLoad,
+    loader = <></>,
+    muteEvents,
+    style,
+    widgetProps,
+  } = props;
+  const [loading, setLoading] = useState<boolean>(true);
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(
     typeof document !== "undefined" &&
       !!document?.getElementById("commonninja-sdk")
@@ -39,7 +49,9 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
       typeof window !== "undefined" &&
       typeof window.CommonNinja !== "undefined"
     ) {
-      window.CommonNinja.init();
+      window.CommonNinja.init(() => {
+        setLoading(false);
+      });
     }
   }
 
@@ -75,10 +87,14 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
   }, [scriptLoaded]);
 
   return (
-    <div
-      className={`commonninja_component pid-${widgetId}`}
-      {...conditionalProps}
-    ></div>
+    <>
+      {loading && loader}
+      <div
+        className={`commonninja_component pid-${widgetId}`}
+        style={style}
+        {...conditionalProps}
+      ></div>
+    </>
   );
 };
 

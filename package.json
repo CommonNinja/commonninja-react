@@ -1,6 +1,6 @@
 {
   "name": "commonninja-react",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A small library for using Common Ninja's widgets in React projects.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
