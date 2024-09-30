@@ -51,7 +51,10 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
       typeof window !== "undefined" &&
       typeof window.CommonNinja !== "undefined"
     ) {
-      if (window.CommonNinja.installIsDone) {
+      if (
+        window.CommonNinja.installIsDone ||
+        window.CommonNinja.installedPlugins?.[loadedWidgetId]
+      ) {
         setLoading(false);
         onInit?.();
         return;
