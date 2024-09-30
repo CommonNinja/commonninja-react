@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 
 interface ICommonNinjaWidgetProps {
   widgetId: string;
@@ -17,8 +17,6 @@ declare global {
   }
 }
 
-let loadedWidgetId: string = "";
-
 export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
   const {
     widgetId,
@@ -34,6 +32,7 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
     typeof document !== "undefined" &&
       !!document?.getElementById("commonninja-sdk")
   );
+  const placeholderRef = useRef<HTMLDivElement | null>(null);
   const conditionalProps: any = {};
 
   if (muteEvents) {
@@ -45,30 +44,42 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
   }
 
   function init() {
-    loadedWidgetId = widgetId;
-
     if (
       typeof window !== "undefined" &&
       typeof window.CommonNinja !== "undefined"
     ) {
+      let instanceId = "";
+
+      Object.keys(window.CommonNinja.installedPlugins).forEach((key) => {
+        if (
+          window.CommonNinja.installedPlugins[key].placeholderElm ===
+          placeholderRef?.current
+        ) {
+          instanceId = key;
+        }
+
+        // const [wId] = key.split('_');
+
+        // if (wId === widgetId) {
+        // 	instanceId = key;
+        // }
+      });
+
       if (
-        window.CommonNinja.installIsDone ||
-        window.CommonNinja.installedPlugins?.[loadedWidgetId]
+        instanceId &&
+        window.CommonNinja.installedPlugins?.[instanceId]?.widgetElm
       ) {
         setLoading(false);
         onInit?.();
         return;
       }
 
-      window.CommonNinja.init(() => {
-        setLoading(false);
-        onInit?.();
-      });
-    } else {
-      setTimeout(() => {
-        init();
-      }, 250);
+      window.CommonNinja.init();
     }
+
+    setTimeout(() => {
+      init();
+    }, 100);
   }
 
   useEffect(() => {
@@ -86,13 +97,14 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
       script.onload = () => {
         setScriptLoaded(true);
       };
+    } else {
+      setScriptLoaded(true);
     }
   });
 
   useEffect(() => {
-    if (widgetId !== loadedWidgetId) {
-      init();
-    }
+    init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [widgetId]);
 
   useEffect(() => {
@@ -100,6 +112,7 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
       init();
       onSdkLoad?.();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scriptLoaded]);
 
   return (
@@ -109,6 +122,7 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
         className={`commonninja_component pid-${widgetId}`}
         style={style}
         {...conditionalProps}
+        ref={placeholderRef}
       ></div>
     </>
   );
