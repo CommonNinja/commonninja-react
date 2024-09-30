@@ -64,7 +64,7 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
     } else {
       setTimeout(() => {
         init();
-      }, 1000);
+      }, 250);
     }
   }
 
