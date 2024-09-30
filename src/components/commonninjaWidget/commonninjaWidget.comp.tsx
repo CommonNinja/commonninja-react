@@ -56,11 +56,15 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
         onInit?.();
         return;
       }
-      
+
       window.CommonNinja.init(() => {
         setLoading(false);
         onInit?.();
       });
+    } else {
+      setTimeout(() => {
+        init();
+      }, 1000);
     }
   }
 
