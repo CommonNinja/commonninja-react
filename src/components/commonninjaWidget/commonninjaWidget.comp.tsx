@@ -44,6 +44,10 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
   }
 
   function init() {
+    if (!widgetId) {
+      return;
+    }
+    
     if (
       typeof window !== "undefined" &&
       typeof window.CommonNinja !== "undefined"
@@ -74,7 +78,13 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
         return;
       }
 
-      window.CommonNinja.init();
+      // If the plugin is not installed, we need to re-init the sdk
+      if (
+        !instanceId ||
+        !window.CommonNinja.installedPlugins?.[instanceId]?.processing
+      ) {
+        window.CommonNinja.init();
+      }
     }
 
     setTimeout(() => {
@@ -114,6 +124,10 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scriptLoaded]);
+
+  if (!widgetId) {
+    return <></>;
+  }
 
   return (
     <>
