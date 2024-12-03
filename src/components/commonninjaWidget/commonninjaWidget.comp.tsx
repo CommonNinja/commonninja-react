@@ -9,6 +9,7 @@ interface ICommonNinjaWidgetProps {
   onInit?: () => Promise<void> | void;
   loader?: React.ReactNode;
   style?: CSSProperties;
+  lazyLoad?: boolean;
 }
 
 declare global {
@@ -26,13 +27,16 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
     muteEvents,
     style,
     widgetProps,
+    lazyLoad = false,
   } = props;
   const [loading, setLoading] = useState<boolean>(true);
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(
     typeof document !== "undefined" &&
       !!document?.getElementById("commonninja-sdk")
   );
+  const [isVisible, setIsVisible] = useState<boolean>(!lazyLoad);
   const placeholderRef = useRef<HTMLDivElement | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
   const conditionalProps: any = {};
 
   if (muteEvents) {
@@ -44,10 +48,10 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
   }
 
   function init() {
-    if (!widgetId) {
+    if (!widgetId || (lazyLoad && !isVisible)) {
       return;
     }
-    
+
     if (
       typeof window !== "undefined" &&
       typeof window.CommonNinja !== "undefined"
@@ -61,12 +65,6 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
         ) {
           instanceId = key;
         }
-
-        // const [wId] = key.split('_');
-
-        // if (wId === widgetId) {
-        // 	instanceId = key;
-        // }
       });
 
       if (
@@ -78,7 +76,6 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
         return;
       }
 
-      // If the plugin is not installed, we need to re-init the sdk
       if (
         !instanceId ||
         !window.CommonNinja.installedPlugins?.[instanceId]?.processing
@@ -113,17 +110,34 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
   });
 
   useEffect(() => {
-    init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [widgetId]);
+    if (lazyLoad) {
+      observerRef.current = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observerRef.current?.disconnect();
+          }
+        },
+        { threshold: 0.1 }
+      );
+
+      if (placeholderRef.current) {
+        observerRef.current.observe(placeholderRef.current);
+      }
+
+      return () => observerRef.current?.disconnect();
+    } else {
+      setIsVisible(true);
+    }
+  }, [lazyLoad]);
 
   useEffect(() => {
-    if (scriptLoaded) {
+    if (scriptLoaded && isVisible) {
       init();
       onSdkLoad?.();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scriptLoaded]);
+  }, [scriptLoaded, isVisible]);
 
   if (!widgetId) {
     return <></>;
