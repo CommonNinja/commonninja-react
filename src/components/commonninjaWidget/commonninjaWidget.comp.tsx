@@ -38,7 +38,7 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
   const conditionalProps: any = {};
 
   if (muteEvents) {
-    conditionalProps["mute-events"] = true;
+    conditionalProps["mute-events"] = 'true';
   }
 
   if (widgetProps) {
@@ -46,7 +46,7 @@ export const CommonNinjaWidget = (props: ICommonNinjaWidgetProps) => {
   }
 
   if (lazyLoad) {
-    conditionalProps["lazy-load"] = true;
+    conditionalProps["lazy-load"] = 'true';
   }
 
   function init() {
